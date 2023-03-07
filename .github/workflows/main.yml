@@ -25,6 +25,7 @@ jobs:
           path: |
             target/release/debugit*
   gather_builds:
+    if: startsWith(github.ref, 'refs/tags/v')
     name: Gather Build outputs
     needs: build_and_test
     runs-on: ubuntu-latest
@@ -33,17 +34,25 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ubuntu-latest
+          path: linux
       - name: Download windows binary
         uses: actions/download-artifact@v3
         with:
           name: windows-latest
+          path: windows
       - name: Download windows binary
         uses: actions/download-artifact@v3
         with:
           name: macos-latest
-      - name: Print the final result
+          path: macos
+      - name: Create archive
         shell: bash
         run: |
-          ls -alR
+          python -m zipfile -c x86_64-debugit-windows.zip windows-latest/debugit.exe
+          python -m tarfile -c x86_64-debugit-linux.tar.gz ubuntu-latest/debugit
+          python -m tarfile -c x86_64-debugit-macos.tar.gz macos-latest/debugit
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "x86_64-debugit-windows.zip,x86_64-debugit-linux.tar.gz,x86_64-debugit-macos.tar.gz"
 
 
