@@ -24,3 +24,18 @@ jobs:
           name: ${{ matrix.os }}
           path: |
             target/release/debugit*
+  gather_builds:
+    name: Gather Build outputs
+    needs: build_and_test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download ubuntu binary
+        uses: actions/download-artifact@v3
+        with:
+          name: ubuntu-latest
+      - name: Download windows binary
+        uses: actions/download-artifact@v3
+        with:
+          name: windows-latest
+
+
