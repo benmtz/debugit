@@ -37,5 +37,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: windows-latest
+      - name: Download windows binary
+        uses: actions/download-artifact@v3
+        with:
+          name: macos-latest
+      - name: Print the final result
+        shell: bash
+        run: |
+          ls -alR
 
 
