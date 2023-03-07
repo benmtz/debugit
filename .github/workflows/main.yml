@@ -26,6 +26,8 @@ jobs:
             target/release/debugit*
   gather_builds:
     if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
     name: Gather Build outputs
     needs: build_and_test
     runs-on: ubuntu-latest
