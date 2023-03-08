@@ -52,8 +52,10 @@ jobs:
         run: |
           ls -alR
           python -m zipfile -c x86_64-debugit-windows.zip windows/debugit.exe
-          python -m tarfile -c x86_64-debugit-linux.tar.gz linux/debugit
-          python -m tarfile -c debugit-macos.tar.gz macos/debugit
+          tar caf x86_64-debugit-linux.tar.gz linux/debugit
+          # python -m tarfile -c x86_64-debugit-linux.tar.gz linux/debugit
+          tar caf debugit-macos.tar.gz macos/debugit
+          # python -m tarfile -c debugit-macos.tar.gz macos/debugit
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "x86_64-debugit-windows.zip,x86_64-debugit-linux.tar.gz,debugit-macos.tar.gz"
